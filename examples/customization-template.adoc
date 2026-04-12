@@ -1,0 +1,144 @@
+= Software customization: ....
+:icons: font
+:toc: macro
+:toclevels: 4
+// Uncomment to show internal sections
+//:INTERNAL: 1
+
+
+//;.Status
+[width="80%",cols="2s,4",frame="topbot"]
+|==========================
+|Document version: | 1
+|References:       | ticket #.... / issue #....
+|Requested by:     |....
+|Written by:       | ....
+|Status:           | Draft / To be approved / Approved
+|Approved by:      | ....
+|==========================
+
+
+toc::[]
+
+## General notes
+
+The proposed customization is to be implemented in the current software version (at the time of writing, this means version .....).
+
+The customizations described herein will become part of the public source tree; all subsequent releases may include it and other users may benefit from it. In return, you get a 25% discount on development costs.
+
+CAUTION: Text areas highlighted as this very sentence require further clarification from the customer.
+
+### Document history
+
+
+[width="90%",cols="^2,^2,10",frame="topbot", options="header"]
+|==========================
+| Date       | Editor  | Changes
+| 2019-01-01 | ....    | First draft
+|==========================
+
+
+## Analysis
+
+The original question posed was:
+
+[quote, Customer, email]
+[...] 10 calls came in, 5 were answered and 5 were dropped however 2 of those calls were dropped within 1 seconds upon entering the queue. Currently this will report as 5 calls answered and 5 calls missed....
+If we could exclude the 2 calls from the report with a parameter to specify a waiting time for unanswered calls  then we would have a total of 8 calls of which 5 were answered and 3 were missed.
+
+So the point is excluding calls that are "too short" and therefore are unfairly compared to other existing calls, be them taken or lost.
+
+
+
+[plantuml, diagram-classes, svg]
+....
+class BlockProcessor
+class DiagramBlock
+class DitaaBlock
+class PlantUmlBlock
+
+BlockProcessor <|-- DiagramBlock
+DiagramBlock <|-- DitaaBlock
+DiagramBlock <|-- PlantUmlBlock
+....
+
+
+### Problem description
+
+
+[ditaa]
+....
+                   +-------------+
+                   | Asciidoctor |-------+
+                   |   diagram   |       |
+                   +-------------+       | PNG out
+                       ^                 |
+                       | ditaa in        |
+                       |                 v
+ +--------+   +--------+----+    /---------------\
+ |        | --+ Asciidoctor +--> |               |
+ |  Text  |   +-------------+    |   Beautiful   |
+ |Document|   |   !magic!   |    |    Output     |
+ |     {d}|   |             |    |               |
+ +---+----+   +-------------+    \---------------/
+     :                                   ^
+     |          Lots of work             |
+     +-----------------------------------+
+....
+
+### Definitions
+
+
+[plantuml, esempio-gui, svg]
+....
+@startsalt
+
+{
+  Login    | "MyName   "
+  Password | "****     "
+  [Cancel] | [  OK   ]
+}
+
+@endsalt
+....
+
+
+
+### Possible solution
+
+
+## Implementation
+
+
+### Changes
+
+#### Security model
+
+#### Properties
+
+#### Database
+
+#### Localization
+
+Localization is included only for the English language.
+
+
+CAUTION: If you require localization to other languages, you will need to provide us the correct translations.
+
+
+
+
+## Implementation costs and timeline
+Complete payment is expected at the order. Completion time: about .........
+
+
+ifdef::INTERNAL[]
+[WARNING]
+====
+For internal use only!!!
+====
+endif::INTERNAL[]
+
+
+
+All customizations are discounted as the client will acquire only a non-exclusive use licence for them and will be part of the standard source tree, thus used in further versions for any user.

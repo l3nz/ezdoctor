@@ -1,0 +1,22 @@
+# Gradle
+.gradle/
+build/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Claude
+.claude/
+
+# OS
+.DS_Store
+
+# Generated examples output
+examples/*.pdf
+examples/*.html
+examples/*.png
+examples/*.svg
+examples/.asciidoctor
+

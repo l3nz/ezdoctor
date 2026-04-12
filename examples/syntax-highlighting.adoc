@@ -1,0 +1,67 @@
+= Syntax Highlighting with Rouge
+:icons: font
+:toc:
+:source-highlighter: rouge
+
+== Java
+
+[source,java]
+----
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}
+----
+
+== Python
+
+[source,python]
+----
+def fibonacci(n):
+    a, b = 0, 1
+    for _ in range(n):
+        yield a
+        a, b = b, a + b
+
+print(list(fibonacci(10)))
+----
+
+== SQL
+
+[source,sql]
+----
+SELECT u.name, COUNT(o.id) AS order_count
+FROM users u
+LEFT JOIN orders o ON o.user_id = u.id
+WHERE u.active = true
+GROUP BY u.name
+ORDER BY order_count DESC;
+----
+
+== Bash
+
+[source,bash]
+----
+#!/usr/bin/env bash
+set -euo pipefail
+
+for file in *.adoc; do
+    echo "Converting $file..."
+    ./ezdoctor "$file"
+done
+----
+
+== JSON
+
+[source,json]
+----
+{
+  "name": "ezdoctor",
+  "version": "1.0.0",
+  "dependencies": {
+    "asciidoctorj": "3.0.1",
+    "asciidoctorj-pdf": "2.3.13"
+  }
+}
+----
