@@ -29,5 +29,18 @@ for adoc in "$SCRIPT_DIR/examples/"*.adoc; do
     java $OPTS -jar "$JAR" epub "$adoc" "$SCRIPT_DIR/examples/${name}.epub"
 done
 
+echo "==> Computing revision..."
+for adoc in "$SCRIPT_DIR/examples/plain-with-revision.adoc"; do
+    name="$(basename "$adoc" .adoc)"
+    echo "  $name: pdf..."
+    java $OPTS -jar "$JAR" pdf --rev "$adoc" 
+    echo "  $name: html..."
+    java $OPTS -jar "$JAR" html --rev "$adoc" 
+    echo "  $name: epub..."
+    java $OPTS -jar "$JAR" epub --rev "$adoc" 
+done
+
+
+
 echo ""
 echo "Done. Output written to examples/"

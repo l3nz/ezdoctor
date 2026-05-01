@@ -1,15 +1,18 @@
 = Software customization: ....
+Author
+v7, 2026-02-18: Some comment
 :icons: font
 :toc: macro
 :toclevels: 4
 // Uncomment to show internal sections
 //:INTERNAL: 1
+:somevar: someval
 
 
 //;.Status
 [width="80%",cols="2s,4",frame="topbot"]
 |==========================
-|Document version: | 1
+|Document version: | {revnumber} - Variable: {somevar}
 |References:       | ticket #.... / issue #....
 |Requested by:     |....
 |Written by:       | ....
@@ -24,7 +27,6 @@ toc::[]
 
 The proposed customization is to be implemented in the current software version (at the time of writing, this means version .....).
 
-The customizations described herein will become part of the public source tree; all subsequent releases may include it and other users may benefit from it. In return, you get a 25% discount on development costs.
 
 CAUTION: Text areas highlighted as this very sentence require further clarification from the customer.
 

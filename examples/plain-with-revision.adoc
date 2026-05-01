@@ -1,0 +1,16 @@
+= Hello AsciidoctorJ
+Author Name
+v1.2, 2026-05-01: Revision Remark
+:toc:
+
+== Introduction
+
+This is a sample document to verify that the standalone
+AsciidoctorJ package works correctly.
+
+I am revision {revnumber}.
+
+
+== Conclusion
+
+If you can read this, Ezdoctor worked!

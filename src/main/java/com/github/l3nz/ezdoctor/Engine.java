@@ -5,6 +5,7 @@ import org.asciidoctor.Attributes;
 import org.asciidoctor.Options;
 import org.asciidoctor.SafeMode;
 import org.asciidoctor.ast.Document;
+import org.asciidoctor.ast.RevisionInfo;
 
 import java.io.File;
 
@@ -34,7 +35,12 @@ public class Engine {
             // We don't need to require this every time! takes a lot of time
             //asciidoctor.requireLibrary("asciidoctor-epub3");
 
-            String revnumber = embedRev ? readRevnumber(asciidoctor, input) : null;
+            String revnumber = null;
+            if (embedRev) {
+                String rev = readRevnumber(asciidoctor, input);
+                revnumber = (rev != null) ? rev : "1";
+            }
+            
             File outputFile = resolveOutput(input, explicitOutput, revnumber, outputExt);
 
             Attributes attributes = buildAttributes(styleAttr, styleValue);
@@ -54,8 +60,9 @@ public class Engine {
 
     static String readRevnumber(Asciidoctor asciidoctor, File input) {
         Document doc = asciidoctor.loadFile(input, Options.builder().safe(SafeMode.SAFE).build());
-        Object rev = doc.getAttribute("revnumber");
-        return rev != null ? rev.toString() : null;
+        RevisionInfo rev = doc.getRevisionInfo();
+        String number = rev.getNumber();
+        return (number != null && !number.isEmpty()) ? number : null;
     }
 
     static File resolveOutput(File input, File explicitOutput, String revnumber, String outputExt) {

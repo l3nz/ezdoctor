@@ -1,0 +1,7 @@
+= Test Document
+Author Name
+v1.2, 2026-05-01: First release
+
+== Section
+
+Body text.
