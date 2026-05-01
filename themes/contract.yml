@@ -1,0 +1,41 @@
+#
+# A pretty sad theme for legal documents
+#
+
+extends: default
+font:
+  catalog:
+    Noto Serif:
+      normal: GEM_FONTS_DIR/notoserif-regular-subset.ttf
+      bold: GEM_FONTS_DIR/notoserif-bold-subset.ttf
+      italic: GEM_FONTS_DIR/notoserif-italic-subset.ttf
+      bold_italic: GEM_FONTS_DIR/notoserif-bold_italic-subset.ttf
+    M+ 1mn:
+      normal: GEM_FONTS_DIR/mplus1mn-regular-subset.ttf
+      bold: GEM_FONTS_DIR/mplus1mn-bold-subset.ttf
+      italic: GEM_FONTS_DIR/mplus1mn-italic-subset.ttf
+      bold_italic: GEM_FONTS_DIR/mplus1mn-bold_italic-subset.ttf
+
+base:
+  font-family: Noto Serif
+  font-size: 8
+code:
+  font-family: M+ 1mn
+codespan:
+  font-family: $code-font-family
+kbd:
+  font-family: $code-font-family
+button:
+  font-family: $base-font-family
+
+page:
+  columns: 2
+
+footer:
+  recto:
+    right:
+      content: 'company - {document-title} - Page {page-number} of {page-count}'
+  verso:
+    left:
+      content: 'company -  v. {revnumber} - Page {page-number} of {page-count}'
+
