@@ -109,6 +109,9 @@ val buildStandalone by tasks.registering(Copy::class) {
             |  --enable-native-access=ALL-UNNAMED \
             |  --sun-misc-unsafe-memory-access=allow \
             |  -Xmx512m \
+            |  -XX:TieredStopAtLevel=1 \
+            |  -XX:+UseSerialGC \
+            |  -Djruby.compile.mode=OFF \
             |  -jar "${'$'}DIR/lib/${fatJar.get().archiveFileName.get()}" \
             |  "${'$'}@"
         """.trimMargin() + "\n")
@@ -128,6 +131,9 @@ val buildStandalone by tasks.registering(Copy::class) {
             |  --enable-native-access=ALL-UNNAMED ^
             |  --sun-misc-unsafe-memory-access=allow ^
             |  -Xmx512m ^
+            |  -XX:TieredStopAtLevel=1 ^
+            |  -XX:+UseSerialGC ^
+            |  -Djruby.compile.mode=OFF ^
             |  -jar "%DIR%lib\${fatJar.get().archiveFileName.get()}" ^
             |  %*
         """.trimMargin() + "\r\n")
