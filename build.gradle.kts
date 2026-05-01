@@ -13,6 +13,7 @@ dependencies {
     implementation("org.asciidoctor:asciidoctorj-diagram:3.1.0")
     implementation("org.asciidoctor:asciidoctorj-diagram-plantuml:1.2025.3")
     implementation("org.asciidoctor:asciidoctorj-diagram-ditaamini:1.0.3")
+    implementation("org.asciidoctor:asciidoctorj-epub3:2.2.0")
 
     implementation("info.picocli:picocli:4.7.6")
     testImplementation("junit:junit:4.13.2")

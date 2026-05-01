@@ -18,5 +18,6 @@ examples/*.pdf
 examples/*.html
 examples/*.png
 examples/*.svg
+examples/*.epub
 examples/.asciidoctor
 
