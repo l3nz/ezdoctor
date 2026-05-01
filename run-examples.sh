@@ -27,7 +27,7 @@ for adoc in "$SCRIPT_DIR/examples/"*.adoc; do
       --enable-native-access=ALL-UNNAMED \
       --sun-misc-unsafe-memory-access=allow \
       -Xmx512m \
-      -jar "$JAR" "$adoc" "$out"
+      -jar "$JAR" pdf "$adoc" "$out"
 done
 
 echo ""

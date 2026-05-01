@@ -14,6 +14,7 @@ dependencies {
     implementation("org.asciidoctor:asciidoctorj-diagram-plantuml:1.2025.3")
     implementation("org.asciidoctor:asciidoctorj-diagram-ditaamini:1.0.3")
 
+    implementation("info.picocli:picocli:4.7.6")
     testImplementation("junit:junit:4.13.2")
 }
 
@@ -21,6 +22,8 @@ java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(25))
     }
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 application {

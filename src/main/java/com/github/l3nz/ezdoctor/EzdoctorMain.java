@@ -1,54 +1,29 @@
 package com.github.l3nz.ezdoctor;
 
-import org.asciidoctor.Asciidoctor;
-import org.asciidoctor.Attributes;
-import org.asciidoctor.Options;
-import org.asciidoctor.SafeMode;
+import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Model.CommandSpec;
+import picocli.CommandLine.Spec;
 
-import java.io.File;
-import org.asciidoctor.OptionsBuilder;
+@Command(
+    name = "ezdoctor",
+    mixinStandardHelpOptions = true,
+    version = EzdoctorMain.VERSION,
+    subcommands = { PdfCommand.class, HtmlCommand.class, EpubCommand.class },
+    description = "Convert AsciiDoc documents to PDF, HTML, or EPUB."
+)
+public class EzdoctorMain implements Runnable {
 
-/**
- * CLI wrapper around AsciidoctorJ for converting AsciiDoc to PDF.
- *
- * Usage: ezdoctor <input.adoc> [output.pdf]
- */
-public class EzdoctorMain {
+    static final String VERSION = "ezdoctor 0.1.0";
+
+    @Spec CommandSpec spec;
+
+    @Override
+    public void run() {
+        spec.commandLine().usage(System.out);
+    }
 
     public static void main(String[] args) {
-        if (args.length < 1) {
-            System.err.println("Usage: ezdoctor <input.adoc> [output.pdf]");
-            System.exit(1);
-        }
-
-        File inputFile = new File(args[0]);
-        if (!inputFile.exists()) {
-            System.err.println("File not found: " + inputFile.getAbsolutePath());
-            System.exit(1);
-        }
-
-        try (Asciidoctor asciidoctor = Asciidoctor.Factory.create()) {
-            asciidoctor.requireLibrary("asciidoctor-diagram");
-
-            Attributes attributes = Attributes.builder()
-                    .attribute("source-highlighter", "rouge")
-                    .build();
-
-            OptionsBuilder optionsBuilder = Options.builder()
-                    .safe(SafeMode.SAFE)
-                    .backend("pdf")
-                    .mkDirs(true)
-                    .attributes(attributes);
-
-            // Optional: explicit output file
-            if (args.length >= 2) {
-                optionsBuilder.toFile(new File(args[1]));
-            }
-
-            asciidoctor.convertFile(inputFile, optionsBuilder.build());
-
-            String output = (args.length >= 2) ? args[1] : inputFile.getName().replace(".adoc", ".pdf");
-            System.out.println("Converted: " + inputFile.getName() + " -> " + output);
-        }
+        System.exit(new CommandLine(new EzdoctorMain()).execute(args));
     }
 }

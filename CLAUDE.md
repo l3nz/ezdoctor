@@ -11,6 +11,7 @@
 - **Diagram support**: Includes diagram libraries (PlantUML, etc.) for rendering diagrams in AsciiDoc
 - **PDF backend**: Uses AsciidoctorJ with PDF backend for output generation
 - **No JDK required**: Standalone package with embedded minimal JRE (via jlink)
+- **Java 11 source compatibility**: All Java source must compile and run on Java 11. Do not use language features introduced after Java 11 (no records, no sealed classes, no text blocks, no pattern matching, etc.). Also avoid `var` — use explicit types.
 
 ## Developement
 
