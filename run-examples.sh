@@ -40,6 +40,15 @@ for adoc in "$SCRIPT_DIR/examples/plain-with-revision.adoc"; do
     java $OPTS -jar "$JAR" epub --rev "$adoc" 
 done
 
+echo "==> adding themes..."
+for adoc in "$SCRIPT_DIR/examples/plain.adoc"; do
+    name="$(basename "$adoc" .adoc)"
+    echo "  $name: pdf..."
+    java $OPTS -jar "$JAR" pdf --theme ./themes/contract.yml "$adoc"  $SCRIPT_DIR/examples/plain-with-theme.pdf
+    echo "  $name: html..."
+    java $OPTS -jar "$JAR" html --theme ./themes/all-red-theme.css "$adoc" $SCRIPT_DIR/examples/plain-with-theme-red.html
+    
+done
 
 
 echo ""

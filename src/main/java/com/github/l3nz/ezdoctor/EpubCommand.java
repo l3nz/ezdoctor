@@ -17,7 +17,7 @@ public class EpubCommand implements Runnable {
             System.exit(1);
         }
         long start = System.nanoTime();
-        File out = Engine.convert(args.input, args.output, "epub3", ".epub", "epub3-stylesdir", args.style, args.rev);
+        File out = Engine.convert(args.input, args.output, "epub3", ".epub", null, args.rev);
         double elapsed = (System.nanoTime() - start) / 1_000_000_000.0;
         System.out.printf("Converted: %s -> %s (took %.1f s.)%n", args.input.getName(), out.getName(), elapsed);
     }

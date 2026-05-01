@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.net.URL;
+import java.nio.file.Files;
 
 import static org.junit.Assert.*;
 
@@ -54,6 +55,56 @@ public class EngineTest {
         // --rev with no :revnumber: in document defaults to "1"
         File out = Engine.resolveOutput(new File("manual.adoc"), null, "1", ".pdf");
         assertEquals("manual-1.pdf", out.getName());
+    }
+
+    // --- resolveThemeName ---
+
+    @Test
+    public void resolveThemeName_plainName() {
+        assertEquals("mycompany", Engine.resolveThemeName("mycompany"));
+    }
+
+    @Test
+    public void resolveThemeName_fileWithThemeSuffix() {
+        assertEquals("mycompany", Engine.resolveThemeName("/path/to/mycompany-theme.yml"));
+    }
+
+    @Test
+    public void resolveThemeName_fileWithoutThemeSuffix() {
+        assertEquals("mycompany", Engine.resolveThemeName("/path/to/mycompany.yml"));
+    }
+
+    // --- resolveTheme ---
+
+    @Test
+    public void resolveTheme_nullStyle() {
+        Engine.ThemeConfig t = Engine.resolveTheme(null, ".yml");
+        assertFalse(t.hasTheme());
+    }
+
+    @Test
+    public void resolveTheme_unknownName_passesThrough() {
+        Engine.ThemeConfig t = Engine.resolveTheme("nonexistent-xyz-theme", ".yml");
+        assertTrue(t.hasTheme());
+        assertEquals("nonexistent-xyz-theme", t.name);
+        assertNull(t.dir);
+    }
+
+    @Test
+    public void resolveTheme_existingFile_copiesToTempDir() throws Exception {
+        File srcDir = Files.createTempDirectory("ezdoctor-test").toFile();
+        File themeFile = new File(srcDir, "myco-theme.yml");
+        themeFile.createNewFile();
+        try {
+            Engine.ThemeConfig t = Engine.resolveTheme(themeFile.getAbsolutePath(), ".yml");
+            assertTrue(t.hasTheme());
+            assertEquals("myco", t.name);
+            assertNotNull(t.dir);
+            assertTrue(new File(t.dir, "myco-theme.yml").exists());
+        } finally {
+            themeFile.delete();
+            srcDir.delete();
+        }
     }
 
     // --- readRevnumber (integration, requires AsciidoctorJ) ---

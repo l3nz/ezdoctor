@@ -14,9 +14,6 @@ class ConvertArgs {
     @Parameters(index = "1", arity = "0..1", paramLabel = "<output>", description = "Output file (optional)")
     File output;
 
-    @Option(names = "--style", paramLabel = "<name>", description = "Style to use for rendering")
-    String style;
-
     @Option(names = "--rev", description = "Embed the document's revnumber in the output filename")
     boolean rev;
 }
