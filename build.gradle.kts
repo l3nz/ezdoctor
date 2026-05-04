@@ -75,3 +75,20 @@ val fatJar by tasks.registering(Jar::class) {
             .map { zipTree(it) }
     })
 }
+
+// ---------------------------------------------------------------------------
+// Distribution: tgz with fat JAR + LICENSE + README
+// ---------------------------------------------------------------------------
+val buildTgz by tasks.registering(Tar::class) {
+    dependsOn(fatJar, tasks.test)
+    archiveFileName.set("ezdoctor-${version}.tar.gz")
+    destinationDirectory.set(layout.buildDirectory.dir("dist"))
+    compression = Compression.GZIP
+
+    from(fatJar.get().archiveFile) {
+        rename { "ezdoctor.jar" }
+    }
+    from(rootDir) {
+        include("LICENSE", "README.md")
+    }
+}

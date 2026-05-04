@@ -17,6 +17,20 @@ The native Asciidoctor toolchain is Ruby-based. Getting it to work reliably acro
 
 ezdoctor sidesteps all of that. It ships as a fat JAR with JRuby and all required gems bundled in. If you have Java 11+, you have everything you need.
 
+## Installing
+
+- Download from release
+- Unpack
+- Create .ezdoctor
+- Copy JAR there
+- create alias like:
+
+```bash
+alias ezdoctor="java --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.nio=ALL-UNNAMED --add-opens=java.base/sun.nio.ch=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --enable-native-access=ALL-UNNAMED --sun-misc-unsafe-memory-access=allow -Xmx512m -XX:TieredStopAtLevel=1 -XX:+UseSerialGC -Djruby.compile.mode=OFF -jar ~/.ezdoctor/ezdoctor.jar "
+```
+
+
+
 ## Usage
 
 ```
@@ -136,12 +150,13 @@ If the document has no revision set, `--rev` falls back to `1`.
 Requires Java 11+ and Gradle (wrapper included).
 
 ```bash
-# Run tests
-./gradlew test
+# Build everything - runs tests
+./gradlew clean buildTgz
 
-# Build the fat JAR
-./gradlew fatJar
-# → build/libs/ezdoctor-all.jar
+#-> Generates 
+#.  build/dist/ezdoctor-0.1.0.tar.gz
+# and
+#   build/libs/ezdoctor-0.1.0-all.jar
 
 # Convert all example documents
 ./run-examples.sh

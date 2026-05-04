@@ -7,8 +7,8 @@ import static org.junit.Assert.*;
 public class EzdoctorMainTest {
 
     @Test
-    public void versionConstantIsDefined() {
-        assertNotNull(EzdoctorMain.VERSION);
-        assertFalse(EzdoctorMain.VERSION.isEmpty());
+    public void versionIsDefined() {
+        assertNotNull(Version.get().version);
+        assertFalse(Version.get().version.isEmpty());
     }
 }
