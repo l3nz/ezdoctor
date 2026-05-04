@@ -8,13 +8,21 @@ import picocli.CommandLine.Spec;
 @Command(
     name = "ezdoctor",
     mixinStandardHelpOptions = true,
-    version = EzdoctorMain.VERSION,
+    versionProvider = EzdoctorMain.VersionProvider.class,
     subcommands = { PdfCommand.class, HtmlCommand.class, EpubCommand.class },
-    description = "Convert AsciiDoc documents to PDF, HTML, or EPUB."
+    description = {
+        "Convert AsciiDoc documents to PDF, HTML, or EPUB.",
+        "This is version ${sys:ezdoctor.version} - See https://github.com/l3nz/ezdoctor"
+    }
 )
 public class EzdoctorMain implements Runnable {
 
-    static final String VERSION = "ezdoctor 0.1.0";
+    static class VersionProvider implements CommandLine.IVersionProvider {
+        @Override
+        public String[] getVersion() {
+            return new String[]{ Version.get().toDisplayString() };
+        }
+    }
 
     @Spec CommandSpec spec;
 
@@ -24,6 +32,7 @@ public class EzdoctorMain implements Runnable {
     }
 
     public static void main(String[] args) {
+        System.setProperty("ezdoctor.version", Version.get().version);
         System.exit(new CommandLine(new EzdoctorMain()).execute(args));
     }
 }

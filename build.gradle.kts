@@ -1,7 +1,19 @@
+import java.time.Instant
+
 plugins {
     java
     application
 }
+
+version = "0.1.0"
+
+val gitCommit: String = providers.exec { commandLine("git", "rev-parse", "--short", "HEAD") }
+    .standardOutput.asText.get().trim()
+
+val gitBranch: String = providers.exec { commandLine("git", "rev-parse", "--abbrev-ref", "HEAD") }
+    .standardOutput.asText.get().trim()
+
+val buildTime: String = Instant.now().toString()
 
 repositories {
     mavenCentral()
@@ -32,6 +44,21 @@ application {
 }
 
 // ---------------------------------------------------------------------------
+// Embed build metadata into version.properties at compile time
+// ---------------------------------------------------------------------------
+tasks.processResources {
+    filesMatching("**/version.properties") {
+        filter { line ->
+            line
+                .replace("@version@", version.toString())
+                .replace("@gitCommit@", gitCommit)
+                .replace("@gitBranch@", gitBranch)
+                .replace("@buildTime@", buildTime)
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
 // Fat-JAR: bundle all dependencies into a single JAR
 // ---------------------------------------------------------------------------
 val fatJar by tasks.registering(Jar::class) {
@@ -47,95 +74,4 @@ val fatJar by tasks.registering(Jar::class) {
             .filter { it.name.endsWith(".jar") }
             .map { zipTree(it) }
     })
-}
-
-// ---------------------------------------------------------------------------
-// Standalone directory: minimal JRE (jlink) + fat JAR + launcher script
-// ---------------------------------------------------------------------------
-val standaloneDir = layout.buildDirectory.dir("standalone/ezdoctor")
-
-val jlinkJre by tasks.registering(Exec::class) {
-    val jreDir = standaloneDir.get().dir("jre").asFile
-
-    val javaHome = javaToolchains
-        .launcherFor(java.toolchain)
-        .get()
-        .metadata
-        .installationPath
-        .asFile
-        .absolutePath
-
-    val jlinkBin = "$javaHome/bin/jlink"
-
-    doFirst { delete(jreDir) }
-
-    commandLine(
-        jlinkBin,
-        "--add-modules", "java.base,java.desktop,java.logging,java.management,java.naming,java.scripting,java.sql,java.xml,jdk.unsupported",
-        "--strip-debug",
-        "--no-man-pages",
-        "--no-header-files",
-        "--compress", "zip-6",
-        "--output", jreDir.absolutePath
-    )
-}
-
-val buildStandalone by tasks.registering(Copy::class) {
-    dependsOn(fatJar, jlinkJre)
-
-    // Copy fat JAR into lib/
-    from(fatJar.get().archiveFile) {
-        into("lib")
-    }
-    into(standaloneDir)
-
-    // Create launcher scripts after the copy
-    doLast {
-        val dir = standaloneDir.get().asFile
-
-        // exec "${'$'}DIR/jre/bin/java"
-
-        // Unix launcher
-        val sh = File(dir, "ezdoctor")
-        sh.writeText("""
-            |#!/usr/bin/env bash
-            |DIR="${'$'}(cd "${'$'}(dirname "${'$'}0")" && pwd)"
-            |exec "java" \
-            |  --add-opens=java.base/java.lang=ALL-UNNAMED \
-            |  --add-opens=java.base/java.io=ALL-UNNAMED \
-            |  --add-opens=java.base/java.nio=ALL-UNNAMED \
-            |  --add-opens=java.base/sun.nio.ch=ALL-UNNAMED \
-            |  --add-opens=java.base/java.util=ALL-UNNAMED \
-            |  --enable-native-access=ALL-UNNAMED \
-            |  --sun-misc-unsafe-memory-access=allow \
-            |  -Xmx512m \
-            |  -XX:TieredStopAtLevel=1 \
-            |  -XX:+UseSerialGC \
-            |  -Djruby.compile.mode=OFF \
-            |  -jar "${'$'}DIR/lib/${fatJar.get().archiveFileName.get()}" \
-            |  "${'$'}@"
-        """.trimMargin() + "\n")
-        sh.setExecutable(true)
-
-        // Windows launcher
-        val bat = File(dir, "ezdoctor.bat")
-        bat.writeText("""
-            |@echo off
-            |set DIR=%~dp0
-            |"%DIR%jre\bin\java.exe" ^
-            |  --add-opens=java.base/java.lang=ALL-UNNAMED ^
-            |  --add-opens=java.base/java.io=ALL-UNNAMED ^
-            |  --add-opens=java.base/java.nio=ALL-UNNAMED ^
-            |  --add-opens=java.base/sun.nio.ch=ALL-UNNAMED ^
-            |  --add-opens=java.base/java.util=ALL-UNNAMED ^
-            |  --enable-native-access=ALL-UNNAMED ^
-            |  --sun-misc-unsafe-memory-access=allow ^
-            |  -Xmx512m ^
-            |  -XX:TieredStopAtLevel=1 ^
-            |  -XX:+UseSerialGC ^
-            |  -Djruby.compile.mode=OFF ^
-            |  -jar "%DIR%lib\${fatJar.get().archiveFileName.get()}" ^
-            |  %*
-        """.trimMargin() + "\r\n")
-    }
 }

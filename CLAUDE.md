@@ -90,6 +90,12 @@ All Java code should use the namespace **`com.github.l3nz.ezdoctor`** (derived f
 
 Uses Gradle 9 with Kotlin build.gradle.kts
 
+### Version and build metadata
+
+`version` is set at the top of `build.gradle.kts` as a standard Gradle project property (not `extra[...]`). Git commit, git branch, and build time are also captured there and substituted into `src/main/resources/com/github/l3nz/ezdoctor/version.properties` via `processResources`. Read at runtime via `Version.get()`.
+
+picocli `@Command` annotation values must be compile-time constants — runtime values (including `Version.get()`) cannot appear in them directly. To surface dynamic content in help text, set a `System.setProperty(...)` before constructing `CommandLine` and reference it with `${sys:property.name}` in the annotation string.
+
 
 ## Development Tasks
 
@@ -99,8 +105,6 @@ Uses Gradle 9 with Kotlin build.gradle.kts
 - [ ] Create sample `.adoc` documents with various features (headings, code blocks, images, diagrams)
 - [ ] Add command-line argument validation and help text
 - [ ] Build fat JAR (`./gradlew fatJar`)
-- [ ] Build standalone bundle with embedded JRE (`./gradlew buildStandalone`)
-- [ ] Verify standalone bundle works on target platforms
 - [ ] Document CLI usage and examples
 
 ## Architecture
@@ -108,5 +112,4 @@ Uses Gradle 9 with Kotlin build.gradle.kts
 - **src/**: Java source (`com.github.l3nz.ezdoctor`)
 - **examples/**: Sample `.adoc` documents; run `./run-examples.sh` to convert all to PDF
 - **build/libs/ezdoctor-all.jar**: Fat JAR with all dependencies bundled
-- **build/standalone/ezdoctor/**: Standalone bundle with embedded JRE + launcher scripts (Unix/Windows)
 
