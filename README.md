@@ -2,6 +2,12 @@
 
 Create beautiful documents with diagrams in PDF, HTML, and EPUB formats from the command line — with no Ruby installation required.
 
+AsciiDoc offers significant advantages over Markdown when it comes to creating professional PDFs, primarily because it was designed from the ground up for structured, publication-quality document authoring. While Markdown excels at simple web content, it lacks a standardized specification and has no native support for rich semantic elements that technical documentation demands, such as cross-references, footnotes, admonitions, table of contents generation, and proper figure captions. AsciiDoc provides all of these out of the box, with a consistent, unambiguous syntax that does not fragment into incompatible flavors the way Markdown does. 
+
+Asciidoctor PDF converts documents directly into polished, typographically refined PDFs with full control over themes, page layouts, headers, footers, and numbering, no intermediate HTML step required. On top of that, Asciidoctor's built-in integration with diagram libraries means that adding technical visuals like a finite state machine or a sequence diagram is as simple as writing a labeled code block, rendered automatically and embedded perfectly in the output PDF. 
+
+This makes AsciiDoc the clear choice for technical writers and documentation teams who need a single source format that scales from a simple README all the way to a multi-chapter book or formal specification.
+
 ## What is this?
 
 **ezdoctor** is a self-contained command-line tool that wraps [AsciidoctorJ](https://github.com/asciidoctor/asciidoctorj) and bundles everything - HTML, PDF and ebooks, plus the diagram libraries that produce a gazillion visualizations, plus syntax highlightning, plus theming - into a single executable JAR. You get the full power of Asciidoctor — diagrams, syntax highlighting, custom themes — without touching Ruby, Gems, or Bundler.
