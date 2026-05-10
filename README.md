@@ -1,10 +1,10 @@
 # ezdoctor
 
-Convert AsciiDoc documents to PDF, HTML, and EPUB from the command line — with no Ruby installation required.
+Create beautiful documents with diagrams in PDF, HTML, and EPUB formats from the command line — with no Ruby installation required.
 
 ## What is this?
 
-**ezdoctor** is a self-contained command-line tool that wraps [AsciidoctorJ](https://github.com/asciidoctor/asciidoctorj) and bundles everything into a single executable JAR. You get the full power of Asciidoctor — diagrams, syntax highlighting, custom themes — without touching Ruby, Gems, or Bundler.
+**ezdoctor** is a self-contained command-line tool that wraps [AsciidoctorJ](https://github.com/asciidoctor/asciidoctorj) and bundles everything - HTML, PDF and ebooks, plus the diagram libraries that produce a gazillion visualizations, plus syntax highlightning, plus theming - into a single executable JAR. You get the full power of Asciidoctor — diagrams, syntax highlighting, custom themes — without touching Ruby, Gems, or Bundler.
 
 ## Why bother?
 
@@ -21,20 +21,23 @@ ezdoctor sidesteps all of that. It ships as a fat JAR with JRuby and all require
 
 - Download from release
 - Unpack
-- Create .ezdoctor
+- Create ~/.ezdoctor
 - Copy JAR there
-- create alias like:
+
+
+Then create an alias like (for modern Javas)
 
 ```bash
-alias ezdoctor="java --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.nio=ALL-UNNAMED --add-opens=java.base/sun.nio.ch=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --enable-native-access=ALL-UNNAMED --sun-misc-unsafe-memory-access=allow -Xmx512m -XX:TieredStopAtLevel=1 -XX:+UseSerialGC -Djruby.compile.mode=OFF -jar ~/.ezdoctor/ezdoctor.jar "
+alias ezdoc="java --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.nio=ALL-UNNAMED --add-opens=java.base/sun.nio.ch=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --enable-native-access=ALL-UNNAMED --sun-misc-unsafe-memory-access=allow -Xmx512m -XX:TieredStopAtLevel=1 -XX:+UseSerialGC -Djruby.compile.mode=OFF -jar ~/.ezdoctor/ezdoctor.jar "
 ```
 
+And add it to your `profile_rc` or similar.
 
 
 ## Usage
 
 ```
-ezdoctor <command> [options] <input.adoc> [output]
+ezdoc <command> [options] <input.adoc> [output]
 ```
 
 ### Commands
@@ -72,19 +75,19 @@ Top-level flags:
 
 ```bash
 # Basic conversion
-ezdoctor pdf guide.adoc
-ezdoctor html guide.adoc
-ezdoctor epub guide.adoc
+ezdoc pdf guide.adoc
+ezdoc html guide.adoc
+ezdoc epub guide.adoc
 
 # Explicit output path
-ezdoctor pdf guide.adoc /tmp/guide.pdf
+ezdoc pdf guide.adoc /tmp/guide.pdf
 
 # Embed revision number in filename → guide-1.2.pdf
-ezdoctor pdf --rev guide.adoc
+ezdoc pdf --rev guide.adoc
 
 # Apply a theme
-ezdoctor pdf --theme mycompany guide.adoc
-ezdoctor html --theme mycompany guide.adoc
+ezdoc pdf --theme mycompany guide.adoc
+ezdoc html --theme mycompany guide.adoc
 ```
 
 ## Themes
@@ -113,7 +116,7 @@ heading:
 Then:
 
 ```bash
-ezdoctor pdf --theme mycompany guide.adoc
+ezdoc pdf --theme mycompany guide.adoc
 ```
 
 ### HTML themes
@@ -139,8 +142,8 @@ v1.2, 2026-05-01: Release notes
 The `{revnumber}` attribute (`1.2` here) can be used inside the document and also embedded in the output filename with `--rev`:
 
 ```bash
-ezdoctor pdf --rev guide.adoc        # → guide-1.2.pdf
-ezdoctor html --rev guide.adoc       # → guide-1.2.html
+ezdoc pdf --rev guide.adoc        # → guide-1.2.pdf
+ezdoc html --rev guide.adoc       # → guide-1.2.html
 ```
 
 If the document has no revision set, `--rev` falls back to `1`.
