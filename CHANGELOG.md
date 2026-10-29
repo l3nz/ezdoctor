@@ -6,6 +6,9 @@
 - Build metadata (version, git commit, git branch, build time) embedded into JAR via `version.properties`
 - Version string shown in `--version` output and help text
 
+### Changed
+- Conversion always runs in `UNSAFE` mode, like the `asciidoctor` CLI: includes outside the document's directory (e.g. `include::../dir/file[]`) now work
+
 ## [0.1.0] — initial release
 
 ### Added

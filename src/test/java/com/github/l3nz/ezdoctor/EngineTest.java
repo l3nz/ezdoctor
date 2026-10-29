@@ -125,6 +125,33 @@ public class EngineTest {
         }
     }
 
+    // --- convert (integration, requires AsciidoctorJ) ---
+
+    @Test
+    public void convert_includeFromParentDirectory() throws Exception {
+        File root = Files.createTempDirectory("ezdoctor-include").toFile();
+        File sub = new File(root, "sub");
+        sub.mkdir();
+        File shared = new File(root, "shared.txt");
+        Files.write(shared.toPath(), "INCLUDED-FROM-PARENT".getBytes("UTF-8"));
+        File input = new File(sub, "doc.adoc");
+        Files.write(input.toPath(), "= Doc\n\ninclude::../shared.txt[]\n".getBytes("UTF-8"));
+        File output = null;
+        try {
+            output = Engine.convert(input, null, "html5", ".html", null, false);
+            String html = new String(Files.readAllBytes(output.toPath()), "UTF-8");
+            assertTrue(html.contains("INCLUDED-FROM-PARENT"));
+        } finally {
+            if (output != null) {
+                output.delete();
+            }
+            input.delete();
+            shared.delete();
+            sub.delete();
+            root.delete();
+        }
+    }
+
     private static File resourceFile(String name) {
         URL url = EngineTest.class.getClassLoader().getResource(name);
         assertNotNull("Test resource not found: " + name, url);

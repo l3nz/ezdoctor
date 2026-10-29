@@ -81,11 +81,9 @@ public class Engine {
                 attributes = buildBaseAttributes();
             }
 
-            // External theme dirs are outside the document's directory, which SafeMode.SAFE blocks.
-            SafeMode safeMode = theme.hasTheme() && theme.dir != null ? SafeMode.UNSAFE : SafeMode.SAFE;
-
+            // UNSAFE, like the asciidoctor CLI: allows includes and themes outside the document's directory.
             Options options = Options.builder()
-                    .safe(safeMode)
+                    .safe(SafeMode.UNSAFE)
                     .backend(backend)
                     .mkDirs(true)
                     .attributes(attributes)
@@ -150,7 +148,7 @@ public class Engine {
     }
 
     static String readRevnumber(Asciidoctor asciidoctor, File input) {
-        Document doc = asciidoctor.loadFile(input, Options.builder().safe(SafeMode.SAFE).build());
+        Document doc = asciidoctor.loadFile(input, Options.builder().safe(SafeMode.UNSAFE).build());
         RevisionInfo rev = doc.getRevisionInfo();
         String number = rev.getNumber();
         return (number != null && !number.isEmpty()) ? number : null;
