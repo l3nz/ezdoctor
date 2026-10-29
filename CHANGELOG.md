@@ -1,6 +1,12 @@
 # Changelog
 
-## [Unreleased]
+
+## [unreleased]
+
+
+
+
+## [0.1.1] — 2026-10-29
 
 ### Added
 - Build metadata (version, git commit, git branch, build time) embedded into JAR via `version.properties`
