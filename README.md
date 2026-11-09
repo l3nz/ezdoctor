@@ -154,6 +154,37 @@ ezdoc html --rev guide.adoc       # → guide-1.2.html
 
 If the document has no revision set, `--rev` falls back to `1`.
 
+## Translating labels
+
+Generated labels such as "Figure 1" or "Table 1" are document attributes, so you can translate them in the document header:
+
+```asciidoc
+= Il mio documento
+:figure-caption: Figura
+:table-caption: Tabella
+```
+
+Setting `:lang:` alone does not translate them. These are the Italian translations from Asciidoctor; other languages are listed in its [locale attributes](https://github.com/asciidoctor/asciidoctor/tree/main/data/locale):
+
+```asciidoc
+:appendix-caption: Appendice
+:caution-caption: Attenzione
+:chapter-signifier: Capitolo
+:example-caption: Esempio
+:figure-caption: Figura
+:important-caption: Importante
+:last-update-label: Ultimo aggiornamento
+:note-caption: Nota
+:part-signifier: Parte
+:section-refsig: Sezione
+:table-caption: Tabella
+:tip-caption: Suggerimento
+:toc-title: Indice
+:untitled-label: Senza titolo
+:version-label: Versione
+:warning-caption: Attenzione
+```
+
 ## Spreadsheets
 
 A `[spreadsheet]` block is rendered as a table, and its last row can compute totals:
