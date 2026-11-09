@@ -154,6 +154,54 @@ ezdoc html --rev guide.adoc       # → guide-1.2.html
 
 If the document has no revision set, `--rev` falls back to `1`.
 
+## Spreadsheets
+
+A `[spreadsheet]` block is rendered as a table, and its last row can compute totals:
+
+```asciidoc
+The project takes {ore} hours.
+
+.Estimate
+[spreadsheet,name=ore]
+----
+Item | Hrs
+Analysis | 12
+Development | 6
+Total: | {me=sum(0)}
+----
+```
+
+The first line is the header; each following line is a row, with cells separated by `|` (write `\|` for a literal pipe).
+
+Formulas are only allowed in the last row, which becomes the table footer:
+
+| Formula | Result |
+|---|---|
+| `{sum(0)}` | prints the sum of the other rows of this column |
+| `{sum(-1)}`, `{sum(1)}` | same, for the previous or next column |
+| `{total=sum(0)}` | also saves the value as the attribute `{total}` |
+| `{me=sum(0)}` | also saves the value in an attribute named after the table (`name=`) |
+
+Saved attributes can be used anywhere in the document's text, even before the table.
+
+Cells can reference attributes too, both document attributes and those saved by other spreadsheets, so a table can be built from the results of others:
+
+```asciidoc
+:travel-cost: 150
+
+[spreadsheet,name=budget]
+----
+Item | Euros
+Work | {ore}
+Travel | {travel-cost}
+Total: | {me=sum(0)}
+----
+```
+
+To enter a `sum`, an attribute must be defined before the table that uses it. A cell that is only printed has no such limit.
+
+Empty cells count as zero. An invalid block (a value that is not a number, an unknown function, a name saved twice...) does not stop the conversion: a `WARNING: Error in spreadsheet: ...` is shown in its place.
+
 ## Building from source
 
 Requires Java 11+ and Gradle (wrapper included).

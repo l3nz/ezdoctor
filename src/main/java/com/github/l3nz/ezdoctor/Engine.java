@@ -70,6 +70,9 @@ public class Engine {
                 revnumber = (rev != null) ? rev : "1";
             }
 
+            // After readRevnumber, which parses the document too: spreadsheets must be seen only once.
+            SpreadsheetExtension.register(asciidoctor);
+
             File outputFile = resolveOutput(input, explicitOutput, revnumber, outputExt);
 
             Attributes attributes;

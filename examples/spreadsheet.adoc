@@ -1,0 +1,33 @@
+= Spreadsheet blocks
+:travel-cost: 150
+
+The project takes {ore} hours and costs {costi} euros, for a budget of {budget} euros.
+
+.Estimate
+[spreadsheet,name=ore]
+----
+Item | Hrs
+Analysis | 12
+Development | 6
+Total: | {me=sum(0)}
+----
+
+.Costs
+[spreadsheet,name=costi]
+----
+Item | Hrs | Euros
+Analysis | 12 | 1200,50
+Development | 6 | 600,25
+Total: | {sum(0)} | {me=sum(0)}
+----
+
+.Budget, from the costs above and a document attribute
+[spreadsheet,name=budget]
+----
+Item | Euros
+Work | {costi}
+Travel | {travel-cost}
+Total: | {me=sum(0)}
+----
+
+Hours again: {ore}.

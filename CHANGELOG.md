@@ -3,6 +3,9 @@
 
 ## [unreleased]
 
+### Added
+- `[spreadsheet]` blocks: small tables with `{sum(N)}` totals that can be saved as document attributes, and cells that can reference attributes
+
 
 
 
