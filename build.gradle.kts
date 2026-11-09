@@ -5,7 +5,7 @@ plugins {
     application
 }
 
-version = "0.1.1"
+version = "0.1.2"
 
 val gitCommit: String = providers.exec { commandLine("git", "rev-parse", "--short", "HEAD") }
     .standardOutput.asText.get().trim()

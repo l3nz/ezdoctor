@@ -1,12 +1,13 @@
 # Changelog
 
 
-## [unreleased]
+## ...unreleased...
+
+
+## [0.1.2] — 2026-11-09
 
 ### Added
 - `[spreadsheet]` blocks: small tables with `{sum(N)}` totals that can be saved as document attributes, and cells that can reference attributes
-
-
 
 
 ## [0.1.1] — 2026-10-29
